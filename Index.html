@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Desafio Mental</title>
+<style>
+body {
+  margin: 0;
+  font-family: Arial;
+  background: linear-gradient(135deg, #0f0f0f, #1c1c1c);
+  color: white;
+  text-align: center;
+}
+
+.container {
+  padding: 40px;
+}
+
+h1 {
+  font-size: 40px;
+  animation: glow 2s infinite alternate;
+}
+
+@keyframes glow {
+  from { text-shadow: 0 0 10px #00ffcc; }
+  to { text-shadow: 0 0 25px #00ffcc; }
+}
+
+.card {
+  background: #222;
+  padding: 20px;
+  margin: 20px auto;
+  border-radius: 15px;
+  width: 300px;
+  box-shadow: 0 0 20px rgba(0,255,200,0.3);
+}
+
+button {
+  padding: 10px 20px;
+  border: none;
+  background: #00ffcc;
+  color: black;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+button:hover {
+  background: #00ccaa;
+}
+
+input {
+  padding: 10px;
+  border-radius: 10px;
+  border: none;
+  width: 80%;
+}
+
+#timer {
+  font-size: 20px;
+  margin-top: 10px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+  <h1>🧠 Desafio Mental Infinito</h1>
+
+  <div class="card">
+    <p id="question">Clique em começar...</p>
+    <input id="answer" placeholder="Digite sua resposta">
+    <br><br>
+    <button onclick="checkAnswer()">Responder</button>
+    <button onclick="startGame()">Começar</button>
+  </div>
+
+  <div id="timer">⏱ Tempo: 0s</div>
+
+  <div class="card">
+    <h3>🏆 Ranking</h3>
+    <p>1º João - 120 pontos</p>
+    <p>2º Maria - 95 pontos</p>
+    <p>3º Você? 👀</p>
+  </div>
+</div>
+
+<script>
+let questions = [
+  {q: "Quanto é 7 x 8?", a: "56"},
+  {q: "Qual palavra está errada? ERRADO ou CERTO", a: "ERRADO"},
+  {q: "O que pesa mais: 1kg de ferro ou 1kg de algodão?", a: "IGUAL"},
+  {q: "Qual número vem depois de 999?", a: "1000"},
+];
+
+let current = 0;
+let score = 0;
+let time = 0;
+let timer;
+
+function startGame() {
+  score = 0;
+  current = 0;
+  time = 0;
+
+  clearInterval(timer);
+  timer = setInterval(() => {
+    time++;
+    document.getElementById("timer").innerText = "⏱ Tempo: " + time + "s";
+  }, 1000);
+
+  nextQuestion();
+}
+
+function nextQuestion() {
+  if (current < questions.length) {
+    document.getElementById("question").innerText = questions[current].q;
+  } else {
+    document.getElementById("question").innerText = "Fim! Pontuação: " + score;
+    clearInterval(timer);
+  }
+}
+
+function checkAnswer() {
+  let userAnswer = document.getElementById("answer").value.toUpperCase();
+
+  if (userAnswer === questions[current].a) {
+    score += 10;
+    alert("✔ Acertou!");
+  } else {
+    alert("❌ Errou!");
+  }
+
+  document.getElementById("answer").value = "";
+  current++;
+  nextQuestion();
+}
+</script>
+
+</body>
+</html>
